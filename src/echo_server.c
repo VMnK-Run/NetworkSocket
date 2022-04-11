@@ -18,7 +18,8 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <parse.h>
+#include "parse.h"
+#include "process.h"
 
 #define ECHO_PORT 9999
 #define BUF_SIZE 4096
@@ -89,7 +90,11 @@ int main(int argc, char* argv[])
         {   
             //fprintf(stderr, "i receive data: %s", buf);
             //原本是从buf读进来,再用buf读回去,所以需要作处理
-            //Request *request = parse(buf, readret, sock);
+
+            Request *request = parse(buf, readret, sock);
+            int readRet = process(request, buf, readret);
+            //fprintf(stderr, "%s\n",request->http_version);
+            //fprintf(stderr, "%s\n", request->http_method);
 
             if (send(client_sock, buf, readret, 0) != readret)
             {

@@ -57,6 +57,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 		if (yyparse() == SUCCESS) {
             return request;
 		}
+
 	}
     //TODO Handle Malformed Requests
     printf("Parsing Failed\n");
