@@ -1,4 +1,5 @@
 #include "parse.h"
+#include "params.h"
 
 /**
 * Given a char buffer returns the parsed request headers
@@ -52,7 +53,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 		Request *request = (Request *) malloc(sizeof(Request));
         request->header_count=0;
         //TODO You will need to handle resizing this in parser.y
-        request->headers = (Request_header *) malloc(sizeof(Request_header)*6);
+        request->headers = (Request_header *) malloc(sizeof(Request_header) * NUM_HEAD_LINES);
 		set_parsing_options(buf, i, request);
 
 		if (yyparse() == SUCCESS) {

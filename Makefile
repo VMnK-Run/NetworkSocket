@@ -15,8 +15,9 @@ CPPFLAGS := -Iinclude
 CFLAGS   := -g -Wall
 # DEPS = parse.h y.tab.h
 
-default: all
+default: echo
 all : example echo_server echo_client
+echo: echo_server echo_client
 
 example: $(OBJ)
 	$(CC) $^ -o $@
