@@ -15,8 +15,7 @@ int process(Request *request, char *buf, int readret){
     }
 
     if(strcmp(request->http_method, "HEAD") == 0) {
-        strcpy(buf, HTTP_1_1_200_OK);
-        return strlen(HTTP_1_1_200_OK);
+        return readret;
     }
 
     strcpy(buf, Not_Implemented);

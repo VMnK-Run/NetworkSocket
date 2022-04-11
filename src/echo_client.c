@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     if (argc != 4)
     {
         fprintf(stderr, "usage: %s <server-ip> <port> <filename>",argv[0]);
-        printf("argc num :%d\n", argc);
+        //printf("argc num :%d\n", argc);
         return EXIT_FAILURE;
     }
 
@@ -52,7 +52,6 @@ int main(int argc, char* argv[])
     /**
      * argv[1] : 主机名
      * argv[2] : 端口号
-     * hints
     */
     if ((status = getaddrinfo(argv[1], argv[2], &hints, &servinfo)) != 0) 
     {

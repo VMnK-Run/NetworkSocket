@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
             //fprintf(stderr, "%s\n",request->http_version);
             //fprintf(stderr, "%s\n", request->http_method);
 
-            if (send(client_sock, buf, readret, 0) != readret)
+            if (send(client_sock, buf, readRet, 0) != readRet)
             {
                 close_socket(client_sock);
                 close_socket(sock);

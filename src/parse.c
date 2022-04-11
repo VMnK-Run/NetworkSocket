@@ -4,7 +4,8 @@
 * Given a char buffer returns the parsed request headers
 */
 Request * parse(char *buffer, int size, int socketFd) {
-  //Differant states in the state machine
+	//fprintf(stdout, "haihai");
+  	//Differant states in the state machine
 	enum {
 		STATE_START = 0, STATE_CR, STATE_CRLF, STATE_CRLFCR, STATE_CRLFCRLF
 	};
@@ -51,7 +52,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 		Request *request = (Request *) malloc(sizeof(Request));
         request->header_count=0;
         //TODO You will need to handle resizing this in parser.y
-        request->headers = (Request_header *) malloc(sizeof(Request_header)*1);
+        request->headers = (Request_header *) malloc(sizeof(Request_header)*6);
 		set_parsing_options(buf, i, request);
 
 		if (yyparse() == SUCCESS) {
@@ -61,6 +62,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 	}
     //TODO Handle Malformed Requests
     printf("Parsing Failed\n");
+	
 	return NULL;
 }
 
