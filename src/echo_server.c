@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     ssize_t readret;
     socklen_t cli_size;
     struct sockaddr_in addr, cli_addr;
-    char buf[BUF_SIZE];
+    char buf[BUF_SIZE * 4];
 
     fprintf(stdout, "----- Liso Server -----\n");
 
@@ -89,13 +89,26 @@ int main(int argc, char* argv[])
         //接受数据
         while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1)
         {   
-            //fprintf(stderr, "i receive data: %s", buf);
+            //fprintf(stderr, "i receive data: %d\n", readret);
             //原本是从buf读进来,再用buf读回去,所以需要作处理
-
-            Request *request = parse(buf, readret, sock);
-            int readRet = process(request, buf, readret);
-
-            if (send(client_sock, buf, readRet, 0) != readRet)
+            int *idx = (int *)malloc(sizeof(int));
+            *idx = 0;
+            int length = 0;
+            char res[BUF_SIZE * 24];
+            fprintf(stderr, "readret: %d\n", readret);
+            while(*idx < readret) {
+                fprintf(stderr, "idx: %d\n", *idx);
+                int temp = *idx;
+                Request *request = parse(buf + *idx, readret - *idx, sock, idx);
+                if(request == NULL) continue;
+                char temp_buf[BUF_SIZE];
+                strncpy(temp_buf, buf + temp, *idx - temp);
+                int readRet = process(request, temp_buf, *idx - temp);
+                length += readRet;
+                strncat(res, buf + temp, readRet);
+            }
+            fprintf(stderr, "readret: %d\n", readret);
+            if (send(client_sock, res, length, 0) != length)
             {
                 close_socket(client_sock);
                 close_socket(sock);

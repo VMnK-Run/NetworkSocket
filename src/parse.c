@@ -4,7 +4,7 @@
 /**
 * Given a char buffer returns the parsed request headers
 */
-Request * parse(char *buffer, int size, int socketFd) {
+Request * parse(char *buffer, int size, int socketFd, int *idx) {
 	//fprintf(stdout, "haihai");
   	//Differant states in the state machine
 	enum {
@@ -26,6 +26,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 
 		ch = buffer[i++];
 		buf[offset++] = ch;
+		(*idx)++;
 
 		switch (state) {
 		case STATE_START:

@@ -1,6 +1,7 @@
 #include "process.h"
 
 int process(Request *request, char *buf, int readret){
+
     //400
     if(request == NULL) {
         strcpy(buf, Bad_request_400);
