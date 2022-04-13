@@ -20,9 +20,10 @@
 #include <unistd.h>
 #include "parse.h"
 #include "process.h"
+#include "params.h"
 
 #define ECHO_PORT 9999
-#define BUF_SIZE 4096
+//#define BUF_SIZE 4096
 
 int close_socket(int sock)
 {
@@ -42,7 +43,7 @@ int main(int argc, char* argv[])
     struct sockaddr_in addr, cli_addr;
     char buf[BUF_SIZE];
 
-    fprintf(stdout, "----- Echo Server -----\n");
+    fprintf(stdout, "----- Liso Server -----\n");
 
     /* all networked programs must create a socket */
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == -1)
@@ -93,8 +94,6 @@ int main(int argc, char* argv[])
 
             Request *request = parse(buf, readret, sock);
             int readRet = process(request, buf, readret);
-            //fprintf(stderr, "%s\n",request->http_version);
-            //fprintf(stderr, "%s\n", request->http_method);
 
             if (send(client_sock, buf, readRet, 0) != readRet)
             {

@@ -20,9 +20,10 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include "params.h"
 
 #define ECHO_PORT 9999
-#define BUF_SIZE 4096
+//#define BUF_SIZE 4096
 
 int main(int argc, char* argv[])
 {

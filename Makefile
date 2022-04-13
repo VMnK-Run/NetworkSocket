@@ -6,7 +6,7 @@ SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(OBJ_DIR)/y.tab.o $(OBJ_DIR)/lex.yy.o $(OBJ_DIR)/parse.o $(OBJ_DIR)/example.o
 OBJS := $(OBJ_DIR)/y.tab.o $(OBJ_DIR)/lex.yy.o $(OBJ_DIR)/parse.o $(OBJ_DIR)/process.o $(OBJ_DIR)/echo_server.o
 # all binaries
-BIN := example echo_server echo_client
+BIN := example liso_server echo_client
 # C compiler
 CC  := gcc
 # C PreProcessor Flag
@@ -15,8 +15,9 @@ CPPFLAGS := -Iinclude
 CFLAGS   := -g -Wall
 # DEPS = parse.h y.tab.h
 
-default: all
+default: echo_liso
 all : example echo_server echo_client
+echo_liso : liso_server echo_client
 
 example: $(OBJ)
 	$(CC) $^ -o $@
@@ -35,7 +36,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
 # echo_server: $(OBJ_DIR)/echo_server.o
 # 	$(CC) -Werror $^ -o $@
 
-echo_server: $(OBJS)
+liso_server: $(OBJS)
 	$(CC) -Werror $^ -o $@
 
 $(SRC_DIR)/lex.yy.c: $(SRC_DIR)/lexer.l
