@@ -91,6 +91,7 @@ int main(int argc, char* argv[])
         {   
             //fprintf(stderr, "i receive data: %d\n", readret);
             //原本是从buf读进来,再用buf读回去,所以需要作处理
+
             int *idx = (int *)malloc(sizeof(int));
             *idx = 0;
             int length = 0;
@@ -100,7 +101,7 @@ int main(int argc, char* argv[])
                 fprintf(stderr, "idx: %d\n", *idx);
                 int temp = *idx;
                 Request *request = parse(buf + *idx, readret - *idx, sock, idx);
-                if(request == NULL) continue;
+                //if(request == NULL && *idx - temp == 2) continue;
                 char temp_buf[BUF_SIZE * 24];
                 strncpy(temp_buf, buf + temp, *idx - temp);
                 fprintf(stderr, "buf:\n%s\n", temp_buf);

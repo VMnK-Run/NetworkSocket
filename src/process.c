@@ -29,8 +29,9 @@ int process(Request *request, char *buf, int readret){
         }
         memset(buf, 0, sizeof(buf));
         strcpy(buf, HTTP_1_1_200_OK);
-        char temp[BUF_SIZE - strlen(buf)];
-        int readRet = read(fd_in, temp, BUF_SIZE - strlen(buf));
+        char temp[BUF_SIZE];
+        int len = BUF_SIZE - strlen(buf);
+        int readRet = read(fd_in, temp, len);
         strncat(buf, temp, readRet);
         return strlen(buf);
     }
