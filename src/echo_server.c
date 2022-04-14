@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     ssize_t readret;
     socklen_t cli_size;
     struct sockaddr_in addr, cli_addr;
-    char buf[BUF_SIZE * 4];
+    char buf[BUF_SIZE * 24];
 
     fprintf(stdout, "----- Liso Server -----\n");
 
@@ -101,13 +101,16 @@ int main(int argc, char* argv[])
                 int temp = *idx;
                 Request *request = parse(buf + *idx, readret - *idx, sock, idx);
                 if(request == NULL) continue;
-                char temp_buf[BUF_SIZE];
+                char temp_buf[BUF_SIZE * 24];
                 strncpy(temp_buf, buf + temp, *idx - temp);
+                fprintf(stderr, "buf:\n%s\n", temp_buf);
                 int readRet = process(request, temp_buf, *idx - temp);
+                fprintf(stderr,"after buf:\n%s\n", temp_buf);
                 length += readRet;
-                strncat(res, buf + temp, readRet);
+                strncat(res, temp_buf, readRet);
             }
             fprintf(stderr, "readret: %d\n", readret);
+            fprintf(stderr, "result:\n%s\n", res);
             if (send(client_sock, res, length, 0) != length)
             {
                 close_socket(client_sock);
@@ -116,6 +119,7 @@ int main(int argc, char* argv[])
                 return EXIT_FAILURE;
             }
             memset(buf, 0, BUF_SIZE);
+            memset(res, 0, sizeof(res));
         } 
 
         if (readret == -1)

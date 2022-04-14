@@ -1,7 +1,7 @@
 #ifndef __PARAMS_H__
 #define __PARAMS_H__
 
-#define BUF_SIZE 8192
+#define BUF_SIZE 8192 * 2
 #define LINES 20
 
 #define Bad_request_400 "HTTP/1.1 400 Bad request\r\n\r\n"

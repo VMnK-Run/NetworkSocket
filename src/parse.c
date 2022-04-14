@@ -14,14 +14,14 @@ Request * parse(char *buffer, int size, int socketFd, int *idx) {
 	int i = 0, state;
 	size_t offset = 0;
 	char ch;
-	char buf[8192];
-	memset(buf, 0, 8192);
+	char buf[BUF_SIZE];
+	memset(buf, 0, BUF_SIZE);
 
 	state = STATE_START;
 	while (state != STATE_CRLFCRLF) {
 		char expected = 0;
 
-		if (i == size || i >= 8192)
+		if (i == size || i >= BUF_SIZE)
 			break;
 
 		ch = buffer[i++];

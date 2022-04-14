@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    char buf[BUF_SIZE];
+    char buf[BUF_SIZE * 24];
     
     int status, sock, fd_in;
     struct addrinfo hints;
