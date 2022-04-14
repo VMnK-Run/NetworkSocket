@@ -30,7 +30,7 @@ int process(Request *request, char *buf, int readret){
         strcpy(buf, HTTP_1_1_200_OK);
         char temp[BUF_SIZE - strlen(buf)];
         int readRet = read(fd_in, temp, BUF_SIZE - strlen(buf));
-        strncat(buf, temp, readret);
+        strncat(buf, temp, readRet);
         return strlen(buf);
     }
 
