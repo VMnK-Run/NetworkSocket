@@ -21,6 +21,7 @@
 #include "parse.h"
 #include "process.h"
 #include "params.h"
+#include "Log.h"
 
 #define ECHO_PORT 9999
 //#define BUF_SIZE 4096
@@ -103,6 +104,7 @@ int main(int argc, char* argv[])
                 return EXIT_FAILURE;
             }
             memset(buf, 0, BUF_SIZE);
+            ERROR("hello world");
         } 
 
         if (readret == -1)
