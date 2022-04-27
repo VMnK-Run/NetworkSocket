@@ -1,5 +1,5 @@
-#ifndef __LOG_H__
-#define __LOG_H__
+#ifndef __LOGg_H__
+#define __LOGg_H__
 #include <stdio.h>
 #include <sys/time.h>
 
@@ -33,7 +33,7 @@
 #define VAR(var_name, format, ...) __LOG_VAR__(var_name, format, ##__VA_ARGS__)
 #define TRACE(code, tag)           __LOG_TRACE__(code, tag)
 
-#define __WHERE__                  "At " __FILE__ ":" "%d "
+#define __WHERE__                  __FILE__ ": " "%d"
 #define __OUTPUT__(format, ...)    fprintf(stdout, format, ##__VA_ARGS__)
 
 /* log levels */

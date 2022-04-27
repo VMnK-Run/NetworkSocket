@@ -4,6 +4,7 @@
 #include "parse.h"
 #include "params.h"
 #include <fcntl.h>
+#include "log.h"
 
 int process(Request *, char *, int);
 

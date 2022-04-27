@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 
             Request *request = parse(buf, readret, sock);
             int readRet = process(request, buf, readret);
-
+            ERROR("hello");
             if (send(client_sock, buf, readRet, 0) != readRet)
             {
                 close_socket(client_sock);
