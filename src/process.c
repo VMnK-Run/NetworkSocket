@@ -16,6 +16,7 @@ int process(Request *request, char *buf, int readret){
     if(strcmp(request->http_method, "GET") == 0) {
         char url[BUF_SIZE];
         if(strcmp(request->http_uri, "/") == 0) {
+            strcpy(request->http_uri, Default_URI);
             strcpy(url, Default_URI);
         } else {
             strcpy(url, request->http_uri);
@@ -31,6 +32,8 @@ int process(Request *request, char *buf, int readret){
         char temp[BUF_SIZE - strlen(buf)];
         int readRet = read(fd_in, temp, BUF_SIZE - strlen(buf));
         strncat(buf, temp, readRet);
+        ACCESS(request, 400, strlen(buf));
+        ACCESS_TO_FILE(request, 400, strlen(buf));
         return strlen(buf);
     }
 
