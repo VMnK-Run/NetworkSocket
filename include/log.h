@@ -24,10 +24,12 @@ void closeLog();
 #define LOG_ERROR(format, ...)          __OUTPUT__(__AS_LOG_ERROR__(format, ##__VA_ARGS__))
 #define ERROR(format, ...)              __OUTPUT__(__AS_ERROR__(format, ##__VA_ARGS__))
 #define ACCESS(request, state, length)  __OUTPUT__(__AS_ACCESS__(request, state, length))
+#define ACCESS_NULL()                   __OUTPUT__(__AS_ACCESS_NULL__())
 #define MSG(format, ...)                __OUTPUT__(__AS_MSG__(format,  ##__VA_ARGS__))
 
 #define ERROR_TO_FILE(format, ...)                 __LOG_ERROR_TO_FILE__(format, ##__VA_ARGS__)
 #define ACCESS_TO_FILE(request, state, length)     __LOG_ACCESS_TO_FILE__(request, state, length)
+#define ACCESS_NULL_TO_FILE()                      __LOG_ACCESS_NULL_TO_FILE__()
 
 #define __AS_LOG__(format, ...) \
         format "\n", ##__VA_ARGS__
@@ -43,6 +45,10 @@ void closeLog();
 #define __AS_ACCESS__(request, state, length) \
         "%s - - [%s +0800] " "\"%s %s %s \" " "%d %d\n", \
         ip_address, getTime(1), request->http_method, request->http_uri, request->http_version, state, length
+
+#define __AS_ACCESS_NULL__() \
+        "%s - - [%s +0800]" "\"%s\"" " %d %d\n", \
+        ip_address, getTime(1), "Bad_request", 400, strlen("Bad_request")
 
 #define __AS_MSG__(format, ...) \
         "[%s]" "\033[1;32m" "[Debug]" "\033[0m" "%s:%d " format "\n", \
@@ -62,4 +68,10 @@ void closeLog();
                 fclose(file);\
         } while(0)
 
+#define __LOG_ACCESS_NULL_TO_FILE__() \
+        do {\
+                file = fopen(ACCESS_FILE, "a+");\
+                fprintf(file, __AS_ACCESS_NULL__());\
+                fclose(file);\
+        } while(0)
 #endif

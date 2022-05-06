@@ -4,8 +4,10 @@ int process(Request *request, char *buf, int readret){
     //400
     if(request == NULL) {
         strcpy(buf, Bad_request_400);
-        ACCESS(request, 400, strlen(Bad_request_400));
-        ACCESS_TO_FILE(request, 400, strlen(Bad_request_400));
+        ACCESS_NULL();
+        ACCESS_NULL_TO_FILE();
+        ERROR("Bad request!");
+        ERROR_TO_FILE("Bad request!");
         return strlen(Bad_request_400);
     }
 
@@ -44,8 +46,8 @@ int process(Request *request, char *buf, int readret){
     }
 
     if(strcmp(request->http_method, "POST") == 0) {
-        ACCESS(request, 200, strlen(readret));
-        ACCESS_TO_FILE(request, 200, strlen(readret));
+        ACCESS(request, 200, readret);
+        ACCESS_TO_FILE(request, 200, readret);
         return readret;
     }
 
@@ -60,5 +62,7 @@ int process(Request *request, char *buf, int readret){
     strcpy(buf, Not_Implemented);
     ACCESS(request, 505, strlen(Not_Implemented));
     ACCESS_TO_FILE(request, 505, strlen(Not_Implemented));
+    ERROR("The Method %s has not been implemented!", request->http_method);
+    ERROR_TO_FILE("The Method %s has not been implemented!", request->http_method);
     return strlen(Not_Implemented);
 }
