@@ -1,0 +1,20 @@
+--Liso Server-- begin at [Fri May 06 21:46:20 2022]
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Fri May 06 21:46:33 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68

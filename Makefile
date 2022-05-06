@@ -4,7 +4,7 @@ OBJ_DIR := obj
 SRC := $(wildcard $(SRC_DIR)/*.c)
 # all objects
 OBJ := $(OBJ_DIR)/y.tab.o $(OBJ_DIR)/lex.yy.o $(OBJ_DIR)/parse.o $(OBJ_DIR)/example.o
-OBJS := $(OBJ_DIR)/y.tab.o $(OBJ_DIR)/lex.yy.o $(OBJ_DIR)/parse.o $(OBJ_DIR)/process.o $(OBJ_DIR)/echo_server.o
+OBJS := $(OBJ_DIR)/y.tab.o $(OBJ_DIR)/lex.yy.o $(OBJ_DIR)/parse.o $(OBJ_DIR)/process.o $(OBJ_DIR)/echo_server.o $(OBJ_DIR)/log.o
 # all binaries
 BIN := example liso_server echo_client
 # C compiler

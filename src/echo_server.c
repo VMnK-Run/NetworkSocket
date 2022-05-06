@@ -18,9 +18,11 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include "parse.h"
 #include "process.h"
 #include "params.h"
+#include "log.h"
 
 #define ECHO_PORT 9999
 //#define BUF_SIZE 4096
@@ -44,7 +46,7 @@ int main(int argc, char* argv[])
     char buf[BUF_SIZE * 24];
 
     fprintf(stdout, "----- Liso Server -----\n");
-
+    initLog();
     /* all networked programs must create a socket */
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     {
@@ -85,6 +87,8 @@ int main(int argc, char* argv[])
         }
 
         readret = 0;
+        memset(ip_address, 0, sizeof(ip_address));
+        strcpy(ip_address, inet_ntoa(cli_addr.sin_addr));
 
         //接受数据
         while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1)
@@ -139,6 +143,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    closeLog();
     close_socket(sock);
 
     return EXIT_SUCCESS;
