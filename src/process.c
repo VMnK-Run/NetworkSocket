@@ -4,12 +4,16 @@ int process(Request *request, char *buf, int readret){
     //400
     if(request == NULL) {
         strcpy(buf, Bad_request_400);
+        ACCESS(request, 400, strlen(Bad_request_400));
+        ACCESS_TO_FILE(request, 400, strlen(Bad_request_400));
         return strlen(Bad_request_400);
     }
 
     //505
     if(strcmp(request->http_version, "HTTP/1.1") != 0) {
         strcpy(buf, RESPONSE_505);
+        ACCESS(request, 400, strlen(RESPONSE_505));
+        ACCESS_TO_FILE(request, 505, strlen(RESPONSE_505));
         return strlen(RESPONSE_505);
     }
 
@@ -25,6 +29,8 @@ int process(Request *request, char *buf, int readret){
         int fd_in = open(url, O_RDONLY);
         if(fd_in < 0) {
             strcpy(buf, RESPONSE_404);
+            ACCESS(request, 404, strlen(RESPONSE_404));
+            ACCESS_TO_FILE(request, 404, strlen(RESPONSE_404));
             return strlen(RESPONSE_404);
         }
         memset(buf, 0, sizeof(buf));
@@ -32,21 +38,27 @@ int process(Request *request, char *buf, int readret){
         char temp[BUF_SIZE - strlen(buf)];
         int readRet = read(fd_in, temp, BUF_SIZE - strlen(buf));
         strncat(buf, temp, readRet);
-        ACCESS(request, 400, strlen(buf));
-        ACCESS_TO_FILE(request, 400, strlen(buf));
+        ACCESS(request, 200, strlen(buf));
+        ACCESS_TO_FILE(request, 200, strlen(buf));
         return strlen(buf);
     }
 
     if(strcmp(request->http_method, "POST") == 0) {
+        ACCESS(request, 200, strlen(readret));
+        ACCESS_TO_FILE(request, 200, strlen(readret));
         return readret;
     }
 
     if(strcmp(request->http_method, "HEAD") == 0) {
         strcpy(buf, HTTP_1_1_200_OK);
+        ACCESS(request, 200, strlen(HTTP_1_1_200_OK));
+        ACCESS_TO_FILE(request, 200, strlen(HTTP_1_1_200_OK));
         return strlen(HTTP_1_1_200_OK);
     }
 
     //501
     strcpy(buf, Not_Implemented);
+    ACCESS(request, 505, strlen(Not_Implemented));
+    ACCESS_TO_FILE(request, 505, strlen(Not_Implemented));
     return strlen(Not_Implemented);
 }
