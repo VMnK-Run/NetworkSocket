@@ -3,6 +3,7 @@
 
 #define BUF_SIZE 8192 * 2
 #define LINES 20
+#define MAXFDS 1024
 
 #define ERROR_FILE       "log/error_log.txt"
 #define ACCESS_FILE      "log/access_log.txt"

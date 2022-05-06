@@ -47,7 +47,7 @@ void closeLog();
         ip_address, getTime(1), request->http_method, request->http_uri, request->http_version, state, length
 
 #define __AS_ACCESS_NULL__() \
-        "%s - - [%s +0800]" "\"%s\"" " %d %d\n", \
+        "%s - - [%s +0800] " "\"%s\"" " %d %d\n", \
         ip_address, getTime(1), "Bad_request", 400, strlen("Bad_request")
 
 #define __AS_MSG__(format, ...) \

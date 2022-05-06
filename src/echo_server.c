@@ -19,6 +19,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <sys/select.h>
+#include <time.h>
 #include "parse.h"
 #include "process.h"
 #include "params.h"
@@ -44,6 +46,9 @@ int main(int argc, char* argv[])
     socklen_t cli_size;
     struct sockaddr_in addr, cli_addr;
     char buf[BUF_SIZE * 24];
+    fd_set readfds, testfds;
+    int client_nums = 1;
+    char ip_addresses[1024][32];
 
     fprintf(stdout, "----- Liso Server -----\n");
     initLog();
@@ -79,79 +84,105 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    FD_ZERO(&readfds);
+    FD_SET(sock, &readfds);//监视sock的读变化
+
     /* finally, loop waiting for input and then write it back */
     while (1)
     {
-        cli_size = sizeof(cli_addr);
-        //建立连接
-        if ((client_sock = accept(sock, (struct sockaddr *) &cli_addr,
-                                    &cli_size)) == -1)
-        {
-            close(sock);
-            //fprintf(stderr, "Error accepting connection.\n");
-            ERROR("Error accepting connection.");
-            ERROR_TO_FILE("Error accepting connection.");
-            return EXIT_FAILURE;
-        }
+        int select_num = select(MAXFDS, &readfds, (fd_set*)0, (fd_set*)0, (struct timeval*)0);
+        // if(select_num < 0) {
+        //     LOG_ERROR("select wrong!");
+        //     return EXIT_FAILURE;
+        // }
 
-        readret = 0;
-        memset(ip_address, 0, sizeof(ip_address));
-        strcpy(ip_address, inet_ntoa(cli_addr.sin_addr));
+        for(int fd = 0; fd < MAXFDS; fd++) {//遍历看哪个发生了变化
+            if(!FD_ISSET(fd, &readfds)) continue; //读变化
+            if(fd == sock) { //获得新连接
+                cli_size = sizeof(cli_addr);
+                //建立连接
+                if ((client_sock = accept(sock, (struct sockaddr *) &cli_addr,
+                                            &cli_size)) == -1)
+                {
+                    close(sock);
+                    //fprintf(stderr, "Error accepting connection.\n");
+                    ERROR("Error accepting connection.");
+                    ERROR_TO_FILE("Error accepting connection.");
+                    return EXIT_FAILURE;
+                }
 
-        //接受数据
-        while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1)
-        {   
-            //fprintf(stderr, "i receive data: %d\n", readret);
-            //原本是从buf读进来,再用buf读回去,所以需要作处理
+                if(client_nums < MAXFDS) {
+                    client_nums++;
+                    FD_SET(client_sock, &readfds);
+                    readret = 0;
+                    memset(ip_address, 0, sizeof(ip_address));
+                    strcpy(ip_address, inet_ntoa(cli_addr.sin_addr));
+                    strcpy(ip_addresses[client_sock], ip_address);
+                } else {
+                    LOG_ERROR("client nums full!");
+                }
 
-            int *idx = (int *)malloc(sizeof(int));
-            *idx = 0;
-            int length = 0;
-            char res[BUF_SIZE * 24];
+            } else { //获得新请求
+                client_sock = fd;
+                memset(ip_address, 0, sizeof(ip_address));
+                strcpy(ip_address, ip_addresses[fd]);
+                //接受数据
+                if ((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1)
+                {   
+                    //fprintf(stderr, "i receive data: %d\n", readret);
+                    //原本是从buf读进来,再用buf读回去,所以需要作处理
 
-            while(*idx < readret) {
+                    int *idx = (int *)malloc(sizeof(int));
+                    *idx = 0;
+                    int length = 0;
+                    char res[BUF_SIZE * 24];
 
-                int temp = *idx;
-                Request *request = parse(buf + *idx, readret - *idx, sock, idx);
-                if(request == NULL && *idx - temp == 2) continue;
-                char temp_buf[BUF_SIZE * 24];
-                strncpy(temp_buf, buf + temp, *idx - temp);
-                int readRet = process(request, temp_buf, *idx - temp);
-                length += readRet;
-                strncat(res, temp_buf, readRet);
+                    while(*idx < readret) {
+
+                        int temp = *idx;
+                        Request *request = parse(buf + *idx, readret - *idx, sock, idx);
+                        if(request == NULL && *idx - temp == 2) continue;
+                        char temp_buf[BUF_SIZE * 24];
+                        strncpy(temp_buf, buf + temp, *idx - temp);
+                        int readRet = process(request, temp_buf, *idx - temp);
+                        length += readRet;
+                        strncat(res, temp_buf, readRet);
+                    }
+
+                    if (send(client_sock, res, length, 0) != length)
+                    {
+                        close_socket(client_sock);
+                        close_socket(sock);
+                        //fprintf(stderr, "Error sending to client.\n");
+                        ERROR("Error sending to client.");
+                        ERROR_TO_FILE("Error sending to client.");
+                        return EXIT_FAILURE;
+                    }
+                    memset(buf, 0, BUF_SIZE);
+                    memset(res, 0, sizeof(res));
+                } 
+
+                if (readret == -1)
+                {
+                    close_socket(client_sock);
+                    close_socket(sock);
+                    //fprintf(stderr, "Error reading from client socket.\n");
+                    ERROR("Error reading from client socket.");
+                    ERROR_TO_FILE("Error reading from client socket.");
+                    return EXIT_FAILURE;
+                }
+
+                if (close_socket(client_sock))
+                {
+                    close_socket(sock);
+                    //fprintf(stderr, "Error closing client socket.\n");
+                    ERROR("Error closing client socket.");
+                    ERROR_TO_FILE("Error closing client socket.");
+                    return EXIT_FAILURE;
+                }
             }
-
-            if (send(client_sock, res, length, 0) != length)
-            {
-                close_socket(client_sock);
-                close_socket(sock);
-                //fprintf(stderr, "Error sending to client.\n");
-                ERROR("Error sending to client.");
-                ERROR_TO_FILE("Error sending to client.");
-                return EXIT_FAILURE;
-            }
-            memset(buf, 0, BUF_SIZE);
-            memset(res, 0, sizeof(res));
-        } 
-
-        if (readret == -1)
-        {
-            close_socket(client_sock);
-            close_socket(sock);
-            //fprintf(stderr, "Error reading from client socket.\n");
-            ERROR("Error reading from client socket.");
-            ERROR_TO_FILE("Error reading from client socket.");
-            return EXIT_FAILURE;
         }
 
-        if (close_socket(client_sock))
-        {
-            close_socket(sock);
-            //fprintf(stderr, "Error closing client socket.\n");
-            ERROR("Error closing client socket.");
-            ERROR_TO_FILE("Error closing client socket.");
-            return EXIT_FAILURE;
-        }
     }
 
     closeLog();

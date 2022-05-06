@@ -53,3 +53,65 @@
 --Liso Server-- begin at [Sat May 07 02:24:15 2022]
 --Liso Server-- begin at [Sat May 07 02:30:33 2022]
 --Liso Server-- begin at [Sat May 07 02:34:41 2022]
+--Liso Server-- begin at [Sat May 07 02:41:25 2022]
+[Sat May 07 02:41:25 2022][Error][client ]Failed binding socket.: src/echo_server.c: 73
+--Liso Server-- begin at [Sat May 07 02:41:36 2022]
+--Liso Server-- begin at [Sat May 07 02:45:11 2022]
+--Liso Server-- begin at [Sat May 07 02:45:38 2022]
+--Liso Server-- begin at [Sat May 07 02:45:57 2022]
+--Liso Server-- begin at [Sat May 07 02:46:23 2022]
+--Liso Server-- begin at [Sat May 07 02:46:50 2022]
+--Liso Server-- begin at [Sat May 07 02:47:08 2022]
+--Liso Server-- begin at [Sat May 07 02:48:26 2022]
+--Liso Server-- begin at [Sat May 07 03:12:29 2022]
+--Liso Server-- begin at [Sat May 07 03:14:03 2022]
+--Liso Server-- begin at [Sat May 07 03:15:35 2022]
+--Liso Server-- begin at [Sat May 07 03:16:25 2022]
+--Liso Server-- begin at [Sat May 07 03:16:44 2022]
+--Liso Server-- begin at [Sat May 07 03:17:50 2022]
+--Liso Server-- begin at [Sat May 07 03:26:34 2022]
+[Sat May 07 03:26:34 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:26:39 2022]
+--Liso Server-- begin at [Sat May 07 03:26:56 2022]
+[Sat May 07 03:26:56 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:27:12 2022]
+[Sat May 07 03:27:12 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:28:46 2022]
+--Liso Server-- begin at [Sat May 07 03:29:06 2022]
+[Sat May 07 03:29:06 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:29:18 2022]
+[Sat May 07 03:29:18 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:30:34 2022]
+--Liso Server-- begin at [Sat May 07 03:31:44 2022]
+[Sat May 07 03:32:01 2022][Error][client ]The Method DELETE has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:01 2022][Error][client ]The Method HOHO has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:01 2022][Error][client ]The Method HAHA has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:01 2022][Error][client ]Bad request!: src/process.c: 11
+[Sat May 07 03:32:24 2022][Error][client ]The Method DELETE has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:24 2022][Error][client ]The Method HOHO has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:24 2022][Error][client ]The Method HAHA has not been implemented!: src/process.c: 68
+[Sat May 07 03:32:24 2022][Error][client ]Bad request!: src/process.c: 11
+--Liso Server-- begin at [Sat May 07 03:34:28 2022]
+[Sat May 07 03:34:31 2022][Error][client ]The Method DELETE has not been implemented!: src/process.c: 68
+[Sat May 07 03:34:31 2022][Error][client ]The Method HOHO has not been implemented!: src/process.c: 68
+[Sat May 07 03:34:31 2022][Error][client ]The Method HAHA has not been implemented!: src/process.c: 68
+[Sat May 07 03:34:31 2022][Error][client ]Bad request!: src/process.c: 11
+--Liso Server-- begin at [Sat May 07 03:35:32 2022]
+[Sat May 07 03:35:32 2022][Error][client (null)]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:35:39 2022]
+--Liso Server-- begin at [Sat May 07 03:35:41 2022]
+[Sat May 07 03:35:41 2022][Error][client (null)]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:41:04 2022]
+[Sat May 07 03:41:10 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Sat May 07 03:41:10 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Sat May 07 03:41:10 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Sat May 07 03:41:10 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+--Liso Server-- begin at [Sat May 07 03:41:48 2022]
+[Sat May 07 03:41:48 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:41:56 2022]
+[Sat May 07 03:41:56 2022][Error][client ]Failed binding socket.: src/echo_server.c: 74
+--Liso Server-- begin at [Sat May 07 03:42:21 2022]
+[Sat May 07 03:42:26 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Sat May 07 03:42:26 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Sat May 07 03:42:26 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Sat May 07 03:42:26 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
