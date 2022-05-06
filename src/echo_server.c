@@ -50,7 +50,9 @@ int main(int argc, char* argv[])
     /* all networked programs must create a socket */
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     {
-        fprintf(stderr, "Failed creating socket.\n");
+        //fprintf(stderr, "Failed creating socket.\n");
+        ERROR("Failed creating socket.\n");
+        ERROR_TO_FILE("Failed creating socket.\n");
         return EXIT_FAILURE;
     }
 
@@ -62,14 +64,18 @@ int main(int argc, char* argv[])
     if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)))
     {
         close_socket(sock);
-        fprintf(stderr, "Failed binding socket.\n");
+        //fprintf(stderr, "Failed binding socket.\n");
+        ERROR("Failed binding socket.");
+        ERROR_TO_FILE("Failed binding socket.");
         return EXIT_FAILURE;
     }
 
     if (listen(sock, 5))//开启监听
     {
         close_socket(sock);
-        fprintf(stderr, "Error listening on socket.\n");
+        //fprintf(stderr, "Error listening on socket.\n");
+        ERROR("Error listening on socket.");
+        ERROR_TO_FILE("Error listening on socket.");
         return EXIT_FAILURE;
     }
 
@@ -82,7 +88,9 @@ int main(int argc, char* argv[])
                                     &cli_size)) == -1)
         {
             close(sock);
-            fprintf(stderr, "Error accepting connection.\n");
+            //fprintf(stderr, "Error accepting connection.\n");
+            ERROR("Error accepting connection.");
+            ERROR_TO_FILE("Error accepting connection.");
             return EXIT_FAILURE;
         }
 
@@ -100,27 +108,26 @@ int main(int argc, char* argv[])
             *idx = 0;
             int length = 0;
             char res[BUF_SIZE * 24];
-            fprintf(stderr, "readret: %d\n", readret);
+
             while(*idx < readret) {
-                fprintf(stderr, "idx: %d\n", *idx);
+
                 int temp = *idx;
                 Request *request = parse(buf + *idx, readret - *idx, sock, idx);
-                //if(request == NULL && *idx - temp == 2) continue;
+                if(request == NULL && *idx - temp == 2) continue;
                 char temp_buf[BUF_SIZE * 24];
                 strncpy(temp_buf, buf + temp, *idx - temp);
-                fprintf(stderr, "buf:\n%s\n", temp_buf);
                 int readRet = process(request, temp_buf, *idx - temp);
-                fprintf(stderr,"after buf:\n%s\n", temp_buf);
                 length += readRet;
                 strncat(res, temp_buf, readRet);
             }
-            fprintf(stderr, "readret: %d\n", readret);
-            fprintf(stderr, "result:\n%s\n", res);
+
             if (send(client_sock, res, length, 0) != length)
             {
                 close_socket(client_sock);
                 close_socket(sock);
-                fprintf(stderr, "Error sending to client.\n");
+                //fprintf(stderr, "Error sending to client.\n");
+                ERROR("Error sending to client.");
+                ERROR_TO_FILE("Error sending to client.");
                 return EXIT_FAILURE;
             }
             memset(buf, 0, BUF_SIZE);
@@ -131,14 +138,18 @@ int main(int argc, char* argv[])
         {
             close_socket(client_sock);
             close_socket(sock);
-            fprintf(stderr, "Error reading from client socket.\n");
+            //fprintf(stderr, "Error reading from client socket.\n");
+            ERROR("Error reading from client socket.");
+            ERROR_TO_FILE("Error reading from client socket.");
             return EXIT_FAILURE;
         }
 
         if (close_socket(client_sock))
         {
             close_socket(sock);
-            fprintf(stderr, "Error closing client socket.\n");
+            //fprintf(stderr, "Error closing client socket.\n");
+            ERROR("Error closing client socket.");
+            ERROR_TO_FILE("Error closing client socket.");
             return EXIT_FAILURE;
         }
     }
