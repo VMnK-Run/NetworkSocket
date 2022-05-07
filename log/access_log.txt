@@ -79,3 +79,7 @@
 --Liso Server-- Begin at [Sat May 07 02:34:41 2022]
 127.0.0.1 - - [07/May/2022:02:34:45 +0800] "HEAD / HTTP/1.1 " 200 19
 127.0.0.1 - - [07/May/2022:02:34:47 +0800] "HEAD / HTTP/1.1 " 200 19
+--Liso Server-- Begin at [Sat May 07 14:50:09 2022]
+127.0.0.1 - - [07/May/2022:14:50:12 +0800] "GET static_site/index.html HTTP/1.1 " 200 955
+127.0.0.1 - - [07/May/2022:14:51:18 +0800] "GET /home/jarvis/Desktop/socketProgramming-2022/src/socket/static_site/style.css HTTP/1.1 " 200 320
+127.0.0.1 - - [07/May/2022:14:51:18 +0800] "GET /home/jarvis/Desktop/socketProgramming-2022/src/socket/static_site/images/liso_header.png HTTP/1.1 " 200 27
