@@ -54,3 +54,18 @@
 --Liso Server-- begin at [Sat May 07 02:30:33 2022]
 --Liso Server-- begin at [Sat May 07 02:34:41 2022]
 --Liso Server-- begin at [Sat May 07 14:50:09 2022]
+--Liso Server-- begin at [Sun May 08 23:44:11 2022]
+[Sun May 08 23:44:22 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Sun May 08 23:44:22 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Sun May 08 23:44:22 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Sun May 08 23:44:22 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+--Liso Server-- begin at [Sun May 08 23:50:20 2022]
+[Sun May 08 23:50:23 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Sun May 08 23:50:23 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Sun May 08 23:50:23 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Sun May 08 23:50:23 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11
+--Liso Server-- begin at [Sun May 08 23:53:32 2022]
+[Sun May 08 23:53:34 2022][Error][client 127.0.0.1]The Method DELETE has not been implemented!: src/process.c: 68
+[Sun May 08 23:53:34 2022][Error][client 127.0.0.1]The Method HOHO has not been implemented!: src/process.c: 68
+[Sun May 08 23:53:35 2022][Error][client 127.0.0.1]The Method HAHA has not been implemented!: src/process.c: 68
+[Sun May 08 23:53:35 2022][Error][client 127.0.0.1]Bad request!: src/process.c: 11

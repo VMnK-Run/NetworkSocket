@@ -71,18 +71,19 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Connect");
         return EXIT_FAILURE;
     }
-        
+
     char msg[BUF_SIZE]; 
     //fgets(msg, BUF_SIZE, stdin);
     int readRet = read(fd_in, msg, BUF_SIZE);
-    
+
     int bytes_received;
     fprintf(stdout, "Sending %s", msg);
     send(sock, msg , readRet, 0);
-    if((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
+    while((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
     {
         buf[bytes_received] = '\0';
         fprintf(stdout, "Received %s", buf);
+        memset(buf, 0, sizeof(buf));
     }        
 
     freeaddrinfo(servinfo);

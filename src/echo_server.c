@@ -106,32 +106,36 @@ int main(int argc, char* argv[])
 
             int *idx = (int *)malloc(sizeof(int));
             *idx = 0;
-            int length = 0;
-            char res[BUF_SIZE * 24];
 
             while(*idx < readret) {
 
                 int temp = *idx;
                 Request *request = parse(buf + *idx, readret - *idx, sock, idx);
                 if(request == NULL && *idx - temp == 2) continue;
-                char temp_buf[BUF_SIZE * 24];
-                strncpy(temp_buf, buf + temp, *idx - temp);
-                int readRet = process(request, temp_buf, *idx - temp);
-                length += readRet;
-                strncat(res, temp_buf, readRet);
+                char res[BUF_SIZE * 24];
+                strncpy(res, buf + temp, *idx - temp);
+                int readRet = process(request, res, *idx - temp);
+                if (send(client_sock, res, readRet, 0) != readRet)
+                {
+                    close_socket(client_sock);
+                    close_socket(sock);
+                    ERROR("Error sending to client.");
+                    ERROR_TO_FILE("Error sending to client.");
+                    return EXIT_FAILURE;
+                }
+
             }
 
-            if (send(client_sock, res, length, 0) != length)
-            {
-                close_socket(client_sock);
-                close_socket(sock);
-                //fprintf(stderr, "Error sending to client.\n");
-                ERROR("Error sending to client.");
-                ERROR_TO_FILE("Error sending to client.");
-                return EXIT_FAILURE;
-            }
+            // if (send(client_sock, res, length, 0) != length)
+            // {
+            //     close_socket(client_sock);
+            //     close_socket(sock);
+            //     //fprintf(stderr, "Error sending to client.\n");
+            //     ERROR("Error sending to client.");
+            //     ERROR_TO_FILE("Error sending to client.");
+            //     return EXIT_FAILURE;
+            // }
             memset(buf, 0, BUF_SIZE);
-            memset(res, 0, sizeof(res));
         } 
 
         if (readret == -1)
