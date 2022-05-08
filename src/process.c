@@ -52,6 +52,21 @@ int process(Request *request, char *buf, int readret){
     }
 
     if(strcmp(request->http_method, "HEAD") == 0) {
+        char url[BUF_SIZE];
+        if(strcmp(request->http_uri, "/") == 0) {
+            strcpy(request->http_uri, Default_URI);
+            strcpy(url, Default_URI);
+        } else {
+            strcpy(url, request->http_uri);
+        }
+
+        int fd_in = open(url, O_RDONLY);
+        if(fd_in < 0) {
+            strcpy(buf, RESPONSE_404);
+            ACCESS(request, 404, strlen(RESPONSE_404));
+            ACCESS_TO_FILE(request, 404, strlen(RESPONSE_404));
+            return strlen(RESPONSE_404);
+        }
         strcpy(buf, HTTP_1_1_200_OK);
         ACCESS(request, 200, strlen(HTTP_1_1_200_OK));
         ACCESS_TO_FILE(request, 200, strlen(HTTP_1_1_200_OK));
