@@ -159,10 +159,11 @@ int main(int argc, char* argv[])
 
                     memset(buf, 0, BUF_SIZE);
 
+                //想使用apache bench吗？把下面这个else注释掉就可以了
                 } else {
                     FD_CLR(client_sock, &readfds);
                     client_nums--;
-
+                    close_socket(client_sock);
                     if (readret == -1)
                     {
                         close_socket(client_sock);
