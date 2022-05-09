@@ -15,7 +15,7 @@ int process(Request *request, char *buf, int readret){
     //505
     if(strcmp(request->http_version, "HTTP/1.1") != 0) {
         strcpy(buf, RESPONSE_505);
-        ACCESS(request, 400, strlen(RESPONSE_505));
+        ACCESS(request, 505, strlen(RESPONSE_505));
         ACCESS_TO_FILE(request, 505, strlen(RESPONSE_505));
         return strlen(RESPONSE_505);
     }

@@ -24,7 +24,7 @@
 #include "params.h"
 #include "log.h"
 
-#define ECHO_PORT 9999
+#define ECHO_PORT 9998
 //#define BUF_SIZE 4096
 
 int close_socket(int sock)
@@ -101,6 +101,7 @@ int main(int argc, char* argv[])
         //接受数据
         while((readret = recv(client_sock, buf, BUF_SIZE, 0)) >= 1)
         {   
+
             //fprintf(stderr, "i receive data: %d\n", readret);
             //原本是从buf读进来,再用buf读回去,所以需要作处理
 
@@ -124,38 +125,35 @@ int main(int argc, char* argv[])
                     return EXIT_FAILURE;
                 }
 
+                if(request!=NULL){
+                    free(request->headers);
+                    free(request);
+                }
+
             }
 
-            // if (send(client_sock, res, length, 0) != length)
-            // {
-            //     close_socket(client_sock);
-            //     close_socket(sock);
-            //     //fprintf(stderr, "Error sending to client.\n");
-            //     ERROR("Error sending to client.");
-            //     ERROR_TO_FILE("Error sending to client.");
-            //     return EXIT_FAILURE;
-            // }
             memset(buf, 0, BUF_SIZE);
+
+            if (close_socket(client_sock))
+            {
+                close_socket(sock);
+                //fprintf(stderr, "Error closing client socket.\n");
+                ERROR("Error closing client socket.");
+                ERROR_TO_FILE("Error closing client socket.");
+                return EXIT_FAILURE;
+            }
         } 
 
         if (readret == -1)
         {
             close_socket(client_sock);
-            close_socket(sock);
+            //close_socket(sock);
             //fprintf(stderr, "Error reading from client socket.\n");
             ERROR("Error reading from client socket.");
             ERROR_TO_FILE("Error reading from client socket.");
-            return EXIT_FAILURE;
+            //return EXIT_FAILURE;
         }
 
-        if (close_socket(client_sock))
-        {
-            close_socket(sock);
-            //fprintf(stderr, "Error closing client socket.\n");
-            ERROR("Error closing client socket.");
-            ERROR_TO_FILE("Error closing client socket.");
-            return EXIT_FAILURE;
-        }
     }
 
     closeLog();
