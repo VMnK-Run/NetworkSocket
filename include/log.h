@@ -1,6 +1,6 @@
 #ifndef __LOG_H__
 #define __LOG_H__
- 
+
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>

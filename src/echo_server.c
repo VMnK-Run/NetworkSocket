@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     socklen_t cli_size;
     struct sockaddr_in addr, cli_addr;
     char buf[BUF_SIZE * 24];
-    fd_set readfds, testfds;
+    fd_set readfds;
     int client_nums = 1;
     char ip_addresses[1024][32];
 
@@ -85,16 +85,19 @@ int main(int argc, char* argv[])
     }
 
     FD_ZERO(&readfds);
-    FD_SET(sock, &readfds);//监视sock的读变化
 
     /* finally, loop waiting for input and then write it back */
     while (1)
     {
-        int select_num = select(MAXFDS, &readfds, (fd_set*)0, (fd_set*)0, (struct timeval*)0);
-        // if(select_num < 0) {
-        //     LOG_ERROR("select wrong!");
-        //     return EXIT_FAILURE;
-        // }
+        LOG("liso server waiting");
+
+        FD_SET(sock, &readfds); // 这句一定要放在这里
+        int select_num = select(MAXFDS, &readfds, NULL, NULL, NULL);
+        LOG("select:%d", select_num);
+        if(select_num < 0) {
+            LOG_ERROR("select wrong! %d", select_num);
+            return EXIT_FAILURE;
+        }
 
         for(int fd = 0; fd < MAXFDS; fd++) {//遍历看哪个发生了变化
             if(!FD_ISSET(fd, &readfds)) continue; //读变化
@@ -118,10 +121,11 @@ int main(int argc, char* argv[])
                     memset(ip_address, 0, sizeof(ip_address));
                     strcpy(ip_address, inet_ntoa(cli_addr.sin_addr));
                     strcpy(ip_addresses[client_sock], ip_address);
+                    MSG("connected the client on fd %d", client_sock);
                 } else {
                     LOG_ERROR("client nums full!");
                 }
-
+                LOG("new connect tcp！");
             } else { //获得新请求
                 client_sock = fd;
                 memset(ip_address, 0, sizeof(ip_address));
@@ -155,26 +159,21 @@ int main(int argc, char* argv[])
 
                     memset(buf, 0, BUF_SIZE);
 
-                } 
+                } else {
+                    FD_CLR(client_sock, &readfds);
+                    client_nums--;
 
-                if (readret == -1)
-                {
-                    close_socket(client_sock);
-                    close_socket(sock);
-                    //fprintf(stderr, "Error reading from client socket.\n");
-                    ERROR("Error reading from client socket.");
-                    ERROR_TO_FILE("Error reading from client socket.");
-                    return EXIT_FAILURE;
+                    if (readret == -1)
+                    {
+                        close_socket(client_sock);
+                        close_socket(sock);
+                        //fprintf(stderr, "Error reading from client socket.\n");
+                        ERROR("Error reading from client socket.");
+                        ERROR_TO_FILE("Error reading from client socket.");
+                        return EXIT_FAILURE;
+                    }
                 }
 
-                if (close_socket(client_sock))
-                {
-                    close_socket(sock);
-                    //fprintf(stderr, "Error closing client socket.\n");
-                    ERROR("Error closing client socket.");
-                    ERROR_TO_FILE("Error closing client socket.");
-                    return EXIT_FAILURE;
-                }
             }
         }
 
