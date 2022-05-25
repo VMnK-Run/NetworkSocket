@@ -1,9 +1,11 @@
 #include "parse.h"
+#include "params.h"
+#include "log.h"
 
 /**
 * Given a char buffer returns the parsed request headers
 */
-Request * parse(char *buffer, int size, int socketFd) {
+Request * parse(char *buffer, int size, int socketFd, int *idx) {
 	//fprintf(stdout, "haihai");
   	//Differant states in the state machine
 	enum {
@@ -13,18 +15,19 @@ Request * parse(char *buffer, int size, int socketFd) {
 	int i = 0, state;
 	size_t offset = 0;
 	char ch;
-	char buf[8192];
-	memset(buf, 0, 8192);
+	char buf[BUF_SIZE];
+	memset(buf, 0, BUF_SIZE);
 
 	state = STATE_START;
 	while (state != STATE_CRLFCRLF) {
 		char expected = 0;
 
-		if (i == size)
+		if (i == size || i >= BUF_SIZE)
 			break;
 
 		ch = buffer[i++];
 		buf[offset++] = ch;
+		(*idx)++;
 
 		switch (state) {
 		case STATE_START:
@@ -52,7 +55,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 		Request *request = (Request *) malloc(sizeof(Request));
         request->header_count=0;
         //TODO You will need to handle resizing this in parser.y
-        request->headers = (Request_header *) malloc(sizeof(Request_header)*6);
+        request->headers = (Request_header *) malloc(sizeof(Request_header) * LINES);
 		set_parsing_options(buf, i, request);
 
 		if (yyparse() == SUCCESS) {
@@ -61,8 +64,12 @@ Request * parse(char *buffer, int size, int socketFd) {
 
 	}
     //TODO Handle Malformed Requests
-    printf("Parsing Failed\n");
-	
+		if(i != 2) {
+			printf("Parsing Failed\n");
+			LOG_ERROR("Parsing Failed");
+		}
+    
+	yylex_destroy();
 	return NULL;
 }
 
