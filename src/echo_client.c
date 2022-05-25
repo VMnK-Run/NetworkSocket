@@ -20,9 +20,10 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include "params.h"
 
 #define ECHO_PORT 9999
-#define BUF_SIZE 4096
+//#define BUF_SIZE 4096
 
 int main(int argc, char* argv[])
 {
@@ -33,7 +34,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    char buf[BUF_SIZE];
+    char buf[BUF_SIZE * 24];
     
     int status, sock, fd_in;
     struct addrinfo hints;
@@ -78,10 +79,11 @@ int main(int argc, char* argv[])
     int bytes_received;
     fprintf(stdout, "Sending %s", msg);
     send(sock, msg , readRet, 0);
-    if((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
+    while((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
     {
         buf[bytes_received] = '\0';
         fprintf(stdout, "Received %s", buf);
+        memset(buf, 0, sizeof(buf));
     }        
 
     freeaddrinfo(servinfo);
