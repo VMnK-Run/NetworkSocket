@@ -20,9 +20,10 @@
 #include <unistd.h>
 #include "parse.h"
 #include "process.h"
+#include "params.h"
 
-#define ECHO_PORT 9999
-#define BUF_SIZE 4096
+// #define ECHO_PORT 9999
+// #define BUF_SIZE 4096
 
 int close_socket(int sock)
 {
